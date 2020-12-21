@@ -1,0 +1,3 @@
+[submodule "brnrdlang.github.io"]
+	path = brnrdlang.github.io
+	url = git@github.com:brnrdlang/brnrdlang.github.io.git

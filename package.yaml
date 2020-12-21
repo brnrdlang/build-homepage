@@ -1,0 +1,52 @@
+name:                homepage
+version:             0.1.0.0
+github:              "brnrdlang/homepage"
+license:             BSD3
+author:              "Bernhard Lang"
+maintainer:          "collurio229@gmx.de"
+copyright:           "2020 Bernhard Lang"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/brnrdlang/homepage#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- lucid
+- mmark
+- clay
+- text
+
+library:
+  source-dirs: src
+
+executables:
+  homepage-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - homepage
+
+tests:
+  homepage-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - homepage
