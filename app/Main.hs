@@ -13,13 +13,18 @@ import qualified Data.Text.Lazy.IO as TL
 
 main :: IO ()
 main = do
---  science_md <- T.readFile "content/science.md"
+  science_md <- T.readFile "content/science/free-academy.md"
 --  art_md <- T.readFile "content/art.md"
   
---  right <- case MM.parse "content/art.md" art_md of
---    Left bundle -> return . p_ $ "Couldn't load art gallery xD"
---    Right r -> return . MM.render $ r
+  right <- case MM.parse "content/science/free-academy.md" science_md of
+    Left bundle -> return . p_ $ "Couldn't load file"
+    Right r -> return . MM.render $ r
   
+  dir <- return "brnrdlang.github.io/"
   body <- return $ homeBody
-  renderToFile "html/index.html" (assembleDocument "Bernhard Lang | Achromatic" "resources/style.css" body)
-  TL.writeFile "html/resources/style.css" (render assembleCSS)
+  renderToFile (dir ++ "index.html") (assembleDocument "Bernhard Lang | Achromatic" "resources/style.css" body)
+  
+  scB <- return . scienceBody (a_ [href_ "index.html"] "HOME") $ right
+  renderToFile (dir ++ "science.html") (assembleDocument "Almanach" "resources/style.css" scB)
+
+  TL.writeFile (dir ++ "resources/style.css") (render assembleCSS)

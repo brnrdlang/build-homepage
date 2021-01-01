@@ -3,7 +3,9 @@
 
 module Lib
     ( assembleDocument,
-      homeBody
+      homeBody,
+      scienceBody,
+      artBody
     ) where
 
 import Lucid
@@ -26,12 +28,18 @@ scienceText =
   \Furthermore I am working on statistical models \
   \for the analysis of psychophysical data."
 
+blogText :: Html ()
+blogText =
+  "Here I provide you with articles about topics I am interested in."
+
 homeBody :: Html()
 homeBody = do
   div_ [class_ "left"] $ do
     h1_ "Bernhard Lang"
     div_ $ img_ [src_ "resources/bl_500.png"]
-    p_ [style_ "text-align:justify"] scienceText
+    p_ [style_ "text-align:left"] scienceText
+    h2_ . a_ [href_ "science.html"] $ "My Blog"
+    p_ [style_ "text-align:left"] blogText
     h2_ "Curriculum Vitae"
     table_ (tr_ (td_ [class_ "dateRow"] "2018 - Now"
               <> td_ "Phd student, University of Tübingen")
