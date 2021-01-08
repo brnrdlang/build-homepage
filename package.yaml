@@ -25,6 +25,8 @@ dependencies:
 - mmark
 - clay
 - text
+- directory
+- filepath
 
 library:
   source-dirs: src
