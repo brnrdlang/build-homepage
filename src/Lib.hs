@@ -53,7 +53,7 @@ homeBody = do
          <> tr_ (td_ [class_ "dateRow"] "2012 - 2015"
               <> td_ "B.Sc. in Computational Molecular Biology, Saarland University"))
   div_ [class_ "art"] $ do
-    h1_ "Achromatic"
+    h1_ "fullyAchromatic"
 --    p_ "Photography, drawing, computer graphics, music, animation, games."
     div_ . a_ [href_ "photography/"] $ (img_ [src_ "resources/salamander_wm.jpg", style_ "width: 12em;margin-right: 1em;margin-bottom:3em;"]
             <> img_ [src_ "resources/wm_8-August.jpg", style_ "width: 9em;"]
