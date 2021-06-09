@@ -60,16 +60,17 @@ homeBody = do
             <> br_ []
             <> img_ [src_ "resources/Bläuling_schmetterling_wm.jpg", style_ "width: 9em;margin-right: 1em;margin-top:-2em;"]
             <> img_ [src_ "resources/3-März.JPG", style_ "width: 12em;"])
+    div_ . a_ [href_ "design/"] $ (img_ [src_ "resources/fonts.svg", style_ "width=100%;max-width: 22.5em"])
 
 scienceMenu :: FilePath -> Html ()
 scienceMenu relHomePath = do
   div_ [class_ "scienceMenu"] $ do
-    a_ [href_ . pack $ relHomePath </> "index.html"] $ img_ [src_ . pack $ relHomePath </> "resources/bl_500.png", style_ "height:4em;"]
+    a_ [href_ . pack $ relHomePath] $ img_ [src_ . pack $ relHomePath </> "resources/bl_500.png", style_ "height:4em;"]
     
 artMenu :: FilePath -> Html ()
 artMenu relHomePath = do
   div_ [class_ "artMenu"] $ do
-    a_ [href_ . pack $ relHomePath </> "index.html"] $ img_ [src_ . pack $ relHomePath </> "resources/achromatic-logo.png", style_ "height:4em;"]
+    a_ [href_ . pack $ relHomePath] $ img_ [src_ . pack $ relHomePath </> "resources/achromatic-logo.png", style_ "height:4em;"]
 
 scienceBody :: FilePath -> Html () -> Html ()
 scienceBody relHomePath content = do

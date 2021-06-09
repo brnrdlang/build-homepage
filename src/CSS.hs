@@ -7,6 +7,7 @@ module CSS
       assembleArtCSS
     ) where
 
+import Prelude hiding (div)
 import Clay
 
 -- Constants
@@ -111,6 +112,9 @@ assembleHomeCSS = do
 
   styleLinks ".art" $ artTextColor
   
+  ".art" ? div ?
+    do marginBottom (em 4)
+  
 menuCSS :: Css
 menuCSS = do
   ".scienceMenu" ?
@@ -157,6 +161,11 @@ assembleArtCSS = do
 
   styleLinks ".artContent" $ artTextColor
   
+  ".artContent" ? img ?
+    do display block
+       marginLeft auto
+       marginRight auto
+
 --  ".gallery" ?
 --   do maxWidth (px 600)
     
