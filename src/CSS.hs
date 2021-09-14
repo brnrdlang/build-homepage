@@ -113,8 +113,13 @@ assembleHomeCSS = do
   styleLinks ".art" $ artTextColor
   
   ".art" ? div ?
-    do marginBottom (em 4)
-  
+    do marginTop (em 2)
+       padding (em 2) (em 2) (em 2) (em 2)
+       maxWidth (em 22)
+       marginLeft auto
+       marginRight auto
+       border solid (px 1) white
+
 menuCSS :: Css
 menuCSS = do
   ".scienceMenu" ?

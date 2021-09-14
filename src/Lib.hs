@@ -27,12 +27,15 @@ assembleDocument title csspath body = doctypehtml_ $ do
 
 scienceText :: Html ()
 scienceText = 
-  "I am a scientist working on visual perception. \
-  \My current research interests are the varying aspects \
-  \of the perception of surfaces: material, shape, illumination. \
-  \Furthermore I am working on statistical models \
-  \for the analysis of psychophysical data."
-
+  "I am a scientist by training and an artist by calling. \
+  \My goals are to explore visual perception through art and information technology \
+  \and to develop new, exciting ways of storytelling. \
+  \I use my skills in programming, my passion for drawing and photographing, as well as my knowledge about human vision towards these goals."
+--  \I am open to freelance work. If you are interested in working with me, please "
+--  <> a_ [href_ obscured_mailto] "contact me here"
+--  <> "."
+--  where
+--    obscured_mailto = "&#109;&#97;&#105;&#108;&#116;&#111;&#58;%66%75%6C%6C%79%61%63%68%72%6F%6D%61%74%69%63%40%67%6D%61%69%6C%2E%63%6F%6D"
 blogText :: Html ()
 blogText =
   "Here I provide you with articles about topics I am interested in."
@@ -46,14 +49,13 @@ homeBody = do
 --    h2_ . a_ [href_ "science.html"] $ "The note collection"
 --    p_ [style_ "text-align:left"] blogText
     h2_ "Curriculum Vitae"
-    table_ (tr_ (td_ [class_ "dateRow"] "2018 - Now"
-              <> td_ "Phd student, University of Tübingen")
+    table_ (tr_ (td_ [class_ "dateRow"] "2018 - 2021"
+              <> td_ "Scientific researcher, University of Tübingen")
          <> tr_ (td_ [class_ "dateRow"] "2015 - 2017"
               <> td_ "M.Sc. in Neural Information Processing, University of Tübingen")
          <> tr_ (td_ [class_ "dateRow"] "2012 - 2015"
               <> td_ "B.Sc. in Computational Molecular Biology, Saarland University"))
   div_ [class_ "art"] $ do
-    h1_ "fullyAchromatic"
 --    p_ "Photography, drawing, computer graphics, music, animation, games."
     div_ . a_ [href_ "photography/"] $ (img_ [src_ "resources/salamander_wm.jpg", style_ "width: 12em;margin-right: 1em;margin-bottom:3em;"]
             <> img_ [src_ "resources/wm_8-August.jpg", style_ "width: 9em;"]
@@ -61,6 +63,8 @@ homeBody = do
             <> img_ [src_ "resources/Bläuling_schmetterling_wm.jpg", style_ "width: 9em;margin-right: 1em;margin-top:-2em;"]
             <> img_ [src_ "resources/3-März.JPG", style_ "width: 12em;"])
     div_ . a_ [href_ "design/"] $ (img_ [src_ "resources/fonts.svg", style_ "width=100%;max-width: 22.5em"])
+    div_ . a_ [href_ "drawings/"] $ (img_ [src_ "resources/self-portrait.jpg", style_ "width=100%;max-width:22em"])
+    h1_ "fullyAchromatic"
 
 scienceMenu :: FilePath -> Html ()
 scienceMenu relHomePath = do

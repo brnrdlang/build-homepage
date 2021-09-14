@@ -35,6 +35,7 @@ main = do
   science_md <- T.readFile "content/science/Carson-2001.md"
 --  art_md <- T.readFile "content/art.md"
   design_md <- T.readFile "content/art/design.md"
+  drawings_md <- T.readFile "content/art/drawings.md"
   
   right <- case MM.parse "content/science/Carson-2001.md" science_md of
     Left bundle -> return . p_ $ "Couldn't load file"
@@ -54,6 +55,14 @@ main = do
   
   designBody <- return (artBody "../" design)
   renderToFile (homepageDir </> "design/index.html") (assembleDocument "Design | fullyAchromatic" "../resources/art_style.css" designBody)
+
+  drawings <- case MM.parse "content/art/drawings.md" drawings_md of
+    Left bundle -> return . p_ $ "Couldn't load file"
+    Right r -> return . MM.render $ r
+  
+  drawingsBody <- return (artBody "../" drawings)
+  renderToFile (homepageDir </> "drawings/index.html") (assembleDocument "Drawings | fullyAchromatic" "../resources/art_style.css" drawingsBody)
+
   
   TL.writeFile (homepageDir </> "resources/home_style.css") (render assembleHomeCSS)
   TL.writeFile (homepageDir </> "resources/sc_style.css") (render assembleScienceCSS)
