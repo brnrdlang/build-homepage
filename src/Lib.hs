@@ -17,12 +17,13 @@ import Control.Monad
 import System.Directory(listDirectory)
 import System.FilePath((</>))
 
-assembleDocument :: Html () -> Text -> Html () -> Html ()
-assembleDocument title csspath body = doctypehtml_ $ do
+assembleDocument :: Html () -> Text -> Text -> Html () -> Html ()
+assembleDocument title csspath faviconpath body = doctypehtml_ $ do
   head_ $ do
     title_ title
     meta_ [charset_ "utf-8"]
     link_ [rel_ "stylesheet", type_ "text/css", href_ csspath]
+    link_ [rel_ "icon", href_ faviconpath]
   body_ body
 
 scienceText :: Html ()
@@ -39,6 +40,27 @@ scienceText =
 blogText :: Html ()
 blogText =
   "Here I provide you with articles about topics I am interested in."
+
+cg_canvas_js :: Html ()
+cg_canvas_js =
+  toHtmlRaw "import init, { WebGlCanvas } from './resources/js/gestalt.js';\
+  \ \
+  \async function run() {\
+  \  await init();\
+  \ \
+  \  const wgc = WebGlCanvas.new(\"cg_canvas\");\
+  \ \
+  \  const renderLoop = time => {\
+  \    wgc.render(time);\
+  \ \
+  \    requestAnimationFrame(renderLoop);\
+  \  };\
+  \ \
+  \  requestAnimationFrame(renderLoop);\
+  \}\
+  \ \
+  \run();"
+
 
 homeBody :: Html()
 homeBody = do
@@ -62,8 +84,10 @@ homeBody = do
             <> br_ []
             <> img_ [src_ "resources/Bläuling_schmetterling_wm.jpg", style_ "width: 9em;margin-right: 1em;margin-top:-2em;"]
             <> img_ [src_ "resources/3-März.JPG", style_ "width: 12em;"])
-    div_ . a_ [href_ "design/"] $ (img_ [src_ "resources/fonts.svg", style_ "width=100%;max-width: 22.5em"])
-    div_ . a_ [href_ "drawings/"] $ (img_ [src_ "resources/self-portrait.jpg", style_ "width=100%;max-width:22em"])
+    div_ . a_ [href_ "design/"] $ (img_ [src_ "resources/fonts.svg", style_ "width: 22.5em"])
+    div_ . a_ [href_ "drawings/"] $ (img_ [src_ "resources/self-portrait.jpg", style_ "width:22em"])
+    div_ . a_ [href_ "cg/"] . canvas_ [id_ "cg_canvas", style_"width:22em;height:22em"] $ ""
+    script_ [type_ "module"] $ cg_canvas_js
     h1_ "fullyAchromatic"
 
 scienceMenu :: FilePath -> Html ()
@@ -96,7 +120,7 @@ assembleGallery homePath outPath relHomePath gpaths htmlElements = do
   galleries <- return $ zipWith (\a (h, b) -> div_ [class_ "gallery"] $ (h1_ h) <> a <> b) (map (assembleGallery' . toText) img_paths) htmlElements
   gallery_html <- return $ foldl1 (<>) galleries
   body <- return $ artBody relHomePath gallery_html
-  renderToFile (homePath </> outPath) $ assembleDocument "Photography | fullyAchromatic" (pack $ relHomePath </> "resources/art_style.css") body
+  renderToFile (homePath </> outPath) $ assembleDocument "Photography | fullyAchromatic" (pack $ relHomePath </> "resources/art_style.css") (pack $ relHomePath </> "resources/favicon.svg") body
   where toText = map pack
         appendPaths = \dirPath fpaths -> map (\fpath -> relHomePath </> dirPath </> fpath) fpaths
 
