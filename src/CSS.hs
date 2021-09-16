@@ -9,6 +9,7 @@ module CSS
 
 import Prelude hiding (div)
 import Clay
+import qualified Clay.Flexbox as FB
 
 -- Constants
 -- Colors
@@ -40,10 +41,8 @@ styleLinks sel col = do
 
 -- CSS code
 
-commonCSSCode :: Css
-commonCSSCode = do
-  importUrl "'https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&family=Vollkorn&display=swap'"
-
+gridBody :: Css
+gridBody =
   body ?
     do background black
        display    grid
@@ -51,6 +50,20 @@ commonCSSCode = do
        sym margin (px 0.0)
        minHeight (vh 100.0)
        textAlign center
+
+flexBody :: Css
+flexBody = 
+  body ?
+    do background black
+       display    flex
+       FB.flexWrap FB.wrap
+       sym margin (px 0.0)
+       minHeight (vh 100.0)
+       textAlign center
+
+commonCSSCode :: Css
+commonCSSCode = do
+  importUrl "'https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&family=Vollkorn&display=swap'"
 
   element "@font-face" ?
     do fontFamily ["Achromatic WM"] []
@@ -78,6 +91,7 @@ commonCSSCode = do
 
 assembleHomeCSS :: Css
 assembleHomeCSS = do
+  flexBody
   commonCSSCode
   h1 ?
     do fontFamily ["Achromatic WM"] [sansSerif]
@@ -97,9 +111,9 @@ assembleHomeCSS = do
   ".science" ?
     do background scienceBgColor
        color      scienceTextColor
-       "grid-column" -: "start / center"
        fontFamily ["Vollkorn"] [serif]
-       padding (em 0) (em 4) (em 0) (em 4)
+       padding (em 0) (em 4) (em 2) (em 4)
+       FB.flex 1 1 (em 25)
 
   styleLinks ".science" $ scienceTextColor
   
@@ -107,18 +121,18 @@ assembleHomeCSS = do
     do background artBgColor
        color      artTextColor
        fontFamily ["Fira Sans"] [sansSerif]       
-       "grid-column" -: "center / end"
        padding (em 0) (em 4) (em 0) (em 4)
-
+       FB.flex 1 1 (em 25)
+       
   styleLinks ".art" $ artTextColor
   
   ".art" ? div ?
     do marginTop (em 2)
        padding (em 2) (em 2) (em 2) (em 2)
-       maxWidth (em 22)
        marginLeft auto
        marginRight auto
        border solid (px 1) white
+       maxWidth (em 22)
 
 menuCSS :: Css
 menuCSS = do
@@ -140,6 +154,7 @@ menuCSS = do
   
 assembleScienceCSS :: Css
 assembleScienceCSS = do
+  gridBody
   commonCSSCode
   menuCSS
   
@@ -154,6 +169,7 @@ assembleScienceCSS = do
 
 assembleArtCSS :: Css
 assembleArtCSS = do
+  gridBody
   commonCSSCode
   menuCSS
     
