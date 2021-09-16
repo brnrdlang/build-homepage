@@ -2,3 +2,6 @@
 	path = brnrdlang.github.io
 	url = git@github.com:brnrdlang/brnrdlang.github.io.git
 	update = merge
+[submodule "gestalt-web"]
+	path = gestalt-web
+	url = git@github.com:brnrdlang/gestalt-web.git
