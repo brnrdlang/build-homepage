@@ -62,7 +62,7 @@ cg_canvas_js =
   \run();"
 
 
-homeBody :: Html()
+homeBody :: Html ()
 homeBody = do
   div_ [class_ "science"] $ do
     h1_ "Bernhard Lang"
@@ -77,6 +77,10 @@ homeBody = do
               <> td_ "M.Sc. in Neural Information Processing, University of Tübingen")
          <> tr_ (td_ [class_ "dateRow"] "2012 - 2015"
               <> td_ "B.Sc. in Computational Molecular Biology, Saarland University"))
+    div_ [style_ "border:1px solid #000"] $ do
+      h2_ $ a_ [href_ "what-is-color/", style_ "text-decoration:none"] "What is color?"
+      p_ $ a_ [href_ "what-is-color/", style_ "text-decoration:none"] "What do you see when you look around you? If you are reading this at a desk on a computer monitor, you probably have a keyboard and mouse before you, maybe there is a coffee mug next to it. The world, as we experience it, consists of objects and every object has (at least one) color ..."
+    
   div_ [class_ "art"] $ do
 --    p_ "Photography, drawing, computer graphics, music, animation, games."
     div_ . a_ [href_ "photography/"] $ (img_ [src_ "resources/salamander_wm.jpg", style_ "width: 12em;margin-right: 1em;margin-bottom:3em;"]
@@ -85,41 +89,51 @@ homeBody = do
             <> img_ [src_ "resources/Bläuling_schmetterling_wm.jpg", style_ "width: 9em;margin-right: 1em;margin-top:-2em;"]
             <> img_ [src_ "resources/3-März.JPG", style_ "width: 12em;"])
     div_ . a_ [href_ "design/"] $ (img_ [src_ "resources/fonts.svg", style_ "width: 22.5em"])
-    div_ . a_ [href_ "drawings/"] $ (img_ [src_ "resources/self-portrait.jpg", style_ "width:22em"])
+    div_ . a_ [href_ "drawings/"] $ (img_ [src_ "resources/drawings/self-portrait.jpg", style_ "width:22em"])
     div_ . a_ [href_ "cg/"] . canvas_ [id_ "cg_canvas", style_"width:22em;height:22em"] $ ""
     script_ [type_ "module"] $ cg_canvas_js
     h1_ "fullyAchromatic"
 
-scienceMenu :: FilePath -> Html ()
-scienceMenu relHomePath = do
+scienceMenu :: FilePath -> [(String, String)] -> [(String, String)] -> Html ()
+scienceMenu relHomePath scLinks artLinks = do
   div_ [class_ "scienceMenu"] $ do
     a_ [href_ . pack $ relHomePath] $ img_ [src_ . pack $ relHomePath </> "resources/bl_500.png", style_ "height:4em;"]
+    forM_ scLinks (buildLink relHomePath "scienceLink")
+    div_ [style_ "border-bottom: 1px solid #000"] ""
+    forM_ artLinks (buildLink relHomePath "artLink")
+  where
+    buildLink = \rel -> \cl -> \(url, name) -> div_ [class_ cl] . a_ [href_ . pack $ rel </> url] . toHtml $ name
     
-artMenu :: FilePath -> Html ()
-artMenu relHomePath = do
+artMenu :: FilePath -> [(String, String)] -> [(String, String)] -> Html ()
+artMenu relHomePath scLinks artLinks = do
   div_ [class_ "artMenu"] $ do
     a_ [href_ . pack $ relHomePath] $ img_ [src_ . pack $ relHomePath </> "resources/achromatic-logo.png", style_ "height:4em;"]
+    forM_ scLinks (buildLink relHomePath "scienceLink")
+    div_ [style_ "border-bottom: 1px solid #fff"] ""
+    forM_ artLinks (buildLink relHomePath "artLink")
+  where
+    buildLink = \rel -> \cl -> \(url, name) -> div_ [class_ cl] . a_ [href_ . pack $ rel </> url] . toHtml $ name
 
-scienceBody :: FilePath -> Html () -> Html ()
-scienceBody relHomePath content = do
+scienceBody :: FilePath -> [(String, String)] -> [(String, String)] -> Html () -> Html ()
+scienceBody relHomePath scLinks artLinks content = do
 --  scienceMenu
   div_ [class_ "scienceContent"] content
-  artMenu relHomePath
+  artMenu relHomePath scLinks artLinks
 
-artBody :: FilePath -> Html () -> Html ()
-artBody relHomePath content = do
-  scienceMenu relHomePath
+artBody :: FilePath -> [(String, String)] -> [(String, String)] -> Html () -> Html ()
+artBody relHomePath scLinks artLinks content = do
+  scienceMenu relHomePath scLinks artLinks
   div_ [class_ "artContent"] content
 --  artMenu
 
-assembleGallery :: FilePath -> FilePath -> FilePath -> [FilePath] -> [(Html (), Html ())] -> IO ()
-assembleGallery homePath outPath relHomePath gpaths htmlElements = do
+assembleGallery :: [(String, String)] -> [(String, String)] -> FilePath -> FilePath -> FilePath -> [FilePath] -> [(Html (), Html ())] -> IO ()
+assembleGallery scLinks artLinks homePath outPath relHomePath gpaths htmlElements = do
   img_files <- mapM listDirectory (map (\p -> homePath </> p) gpaths)
   img_paths <- return $ zipWith appendPaths gpaths img_files
   
   galleries <- return $ zipWith (\a (h, b) -> div_ [class_ "gallery"] $ (h1_ h) <> a <> b) (map (assembleGallery' . toText) img_paths) htmlElements
   gallery_html <- return $ foldl1 (<>) galleries
-  body <- return $ artBody relHomePath gallery_html
+  body <- return $ artBody relHomePath scLinks artLinks gallery_html
   renderToFile (homePath </> outPath) $ assembleDocument "Photography | fullyAchromatic" (pack $ relHomePath </> "resources/art_style.css") (pack $ relHomePath </> "resources/favicon.svg") body
   where toText = map pack
         appendPaths = \dirPath fpaths -> map (\fpath -> relHomePath </> dirPath </> fpath) fpaths

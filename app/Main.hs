@@ -38,46 +38,56 @@ gestaltPackage = do
   copyFile "gestalt-web/pkg/gestalt.d.ts" "brnrdlang.github.io/resources/js/gestalt.d.ts"
   copyFile "gestalt-web/pkg/package.json" "brnrdlang.github.io/resources/js/package.json"
 
+scienceMenu :: [(String, String)]
+scienceMenu = [("what-is-color/", "What is color?")]
+
+artMenu :: [(String, String)]
+artMenu =
+  [("photography/", "Photography"),
+   ("drawings/", "Drawings"),
+   ("design/", "Design"),
+   ("cg/", "Computer Graphics")]
+
 main :: IO ()
 main = do
-  science_md <- T.readFile "content/science/Carson-2001.md"
+  science_md <- T.readFile "content/science/what-is-color.md"
 --  art_md <- T.readFile "content/art.md"
   design_md <- T.readFile "content/art/design.md"
   drawings_md <- T.readFile "content/art/drawings.md"
   cg_md <- T.readFile "content/art/cg.md"
   
-  right <- case MM.parse "content/science/Carson-2001.md" science_md of
+  right <- case MM.parse "content/science/what-is-color.md" science_md of
     Left bundle -> return . p_ $ "Couldn't load file"
     Right r -> return . MM.render $ r
 
   body <- return $ homeBody
   renderToFile (homepageDir </> "index.html") (assembleDocument "Bernhard Lang | Achromatic" "resources/home_style.css" "resources/favicon.svg" body)
   
-  scB <- return (scienceBody "./" right)
-  renderToFile (homepageDir </> "science.html") (assembleDocument "Carson (2001) | Note collection" "resources/sc_style.css" "resources/favicon.svg" scB)
+  scB <- return (scienceBody "../" scienceMenu artMenu right)
+  renderToFile (homepageDir </> "what-is-color/index.html") (assembleDocument "What is color? | Bernhard Lang" "../resources/sc_style.css" "../resources/favicon.svg" scB)
 
-  assembleGallery homepageDir "photography/index.html" "../" galleryPaths itchioWidgets
+  assembleGallery scienceMenu artMenu homepageDir "photography/index.html" "../" galleryPaths itchioWidgets
 
   design <- case MM.parse "content/art/design.md" design_md of
     Left bundle -> return . p_ $ "Couldn't load file"
     Right r -> return . MM.render $ r
   
-  designBody <- return (artBody "../" design)
+  designBody <- return (artBody "../" scienceMenu artMenu design)
   renderToFile (homepageDir </> "design/index.html") (assembleDocument "Design | fullyAchromatic" "../resources/art_style.css" "../resources/favicon.svg" designBody)
 
   drawings <- case MM.parse "content/art/drawings.md" drawings_md of
     Left bundle -> return . p_ $ "Couldn't load file"
     Right r -> return . MM.render $ r
   
-  drawingsBody <- return (artBody "../" drawings)
+  drawingsBody <- return (artBody "../" scienceMenu artMenu drawings)
   renderToFile (homepageDir </> "drawings/index.html") (assembleDocument "Drawings | fullyAchromatic" "../resources/art_style.css" "../resources/favicon.svg" drawingsBody)
   
   cg <- case MM.parse "content/art/cg.md" cg_md of
     Left bundle -> return . p_ $ "Couldn't load file"
     Right r -> return . MM.render $ r
   
-  cgBody <- return (artBody "../" cg)
---  renderToFile (homepageDir </> "cg/index.html") (assembleDocument "Computer Graphics | fullyAchromatic" "../resources/art_style.css" "../resources/favicon.svg" cgBody)
+  cgBody <- return (artBody "../" scienceMenu artMenu cg)
+  renderToFile (homepageDir </> "cg/index.html") (assembleDocument "Computer Graphics | fullyAchromatic" "../resources/art_style.css" "../resources/favicon.svg" cgBody)
   
   TL.writeFile (homepageDir </> "resources/home_style.css") (render assembleHomeCSS)
   TL.writeFile (homepageDir </> "resources/sc_style.css") (render assembleScienceCSS)

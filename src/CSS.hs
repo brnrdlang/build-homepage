@@ -139,29 +139,51 @@ menuCSS = do
   ".scienceMenu" ?
     do background scienceBgColor
        color      scienceTextColor
-       "grid-column" -: "start / left"
+       FB.flex    1 1 auto
        padding (em 2) (em 4) (em 0) (em 4)
 
   styleLinks ".scienceMenu" $ scienceTextColor
 
+  ".scienceMenu" ? div ?
+    do width (pct 100.0)
+       fontSize (em 1.5)
+       margin (em 0.5) (em 0) (em 0.5) (em 0)
+  
+  ".scienceLink" ?
+    do fontFamily ["Vollkorn"] [serif]
+
+  ".scienceLink" ? a ?
+   do textDecoration none
+     
   ".artMenu" ?
     do background artBgColor
        color      artTextColor
-       "grid-column" -: "right / end"
+       FB.flex    1 1 auto
        padding (em 2) (em 4) (em 0) (em 4)
 
   styleLinks ".artMenu" $ artTextColor
-  
+ 
+  ".artMenu" ? div ?
+    do width (pct 100.0)
+       fontSize (em 1.5)
+       margin (em 0.5) (em 0) (em 0.5) (em 0)
+       
+  ".artLink" ?
+    do fontFamily ["Fira Sans"] [sansSerif]
+ 
+  ".artLink" ? a ?
+    do textDecoration none
+
 assembleScienceCSS :: Css
 assembleScienceCSS = do
-  gridBody
+  flexBody
   commonCSSCode
   menuCSS
   
   ".scienceContent" ?
     do background scienceBgColor
        color      scienceTextColor
-       "grid-column" -: "start / right"
+       FB.flex       3 1 (em 60)
        fontFamily ["Vollkorn"] [serif]
        padding (em 0) (em 4) (em 0) (em 4)
 
@@ -169,14 +191,14 @@ assembleScienceCSS = do
 
 assembleArtCSS :: Css
 assembleArtCSS = do
-  gridBody
+  flexBody
   commonCSSCode
   menuCSS
     
   ".artContent" ?
     do background artBgColor
        color      artTextColor
-       "grid-column" -: "left / end"
+       FB.flex       3 1 (em 60)
        fontFamily ["Fira Sans"] [sansSerif]       
        padding (em 0) (em 4) (em 0) (em 4)
 
@@ -186,7 +208,9 @@ assembleArtCSS = do
     do display block
        marginLeft auto
        marginRight auto
-
+       maxWidth (pct 85)
+       marginTop (em 2)
+       marginBottom (em 2)
 --  ".gallery" ?
 --   do maxWidth (px 600)
     
