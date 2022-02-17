@@ -3,8 +3,8 @@ version:             0.1.0.0
 github:              "brnrdlang/homepage"
 license:             BSD3
 author:              "Bernhard Lang"
-maintainer:          "collurio229@gmx.de"
-copyright:           "2020 Bernhard Lang"
+maintainer:          "fullyachromatic@gmail.com"
+copyright:           "2020-2022 Bernhard Lang"
 
 extra-source-files:
 - README.md

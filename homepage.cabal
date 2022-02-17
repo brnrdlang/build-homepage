@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e5fcc99f207686212640d18850fb9431740e01a7644e470b3a3b11d3891a37ed
+-- hash: 9260c9f6c0dc4f38d92c9653b55dcf3c0912cdf4ef971410cb91cda3d6ed8c5b
 
 name:           homepage
 version:        0.1.0.0
@@ -12,8 +12,8 @@ description:    Please see the README on GitHub at <https://github.com/brnrdlang
 homepage:       https://github.com/brnrdlang/homepage#readme
 bug-reports:    https://github.com/brnrdlang/homepage/issues
 author:         Bernhard Lang
-maintainer:     collurio229@gmx.de
-copyright:      2020 Bernhard Lang
+maintainer:     fullyachromatic@gmail.com
+copyright:      2020-2022 Bernhard Lang
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      About
       CSS
       Lib
   other-modules:

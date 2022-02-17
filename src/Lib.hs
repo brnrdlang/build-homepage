@@ -17,6 +17,8 @@ import Control.Monad
 import System.Directory(listDirectory)
 import System.FilePath((</>))
 
+import About(encryptLink, decryptScript)
+
 assembleDocument :: Html () -> Text -> Text -> Html () -> Html ()
 assembleDocument title csspath faviconpath body = doctypehtml_ $ do
   head_ $ do
@@ -32,11 +34,16 @@ scienceText =
   \My goals are to explore visual perception through art and information technology \
   \and to develop new, exciting ways of storytelling. \
   \I use my skills in programming, my passion for drawing and photographing, as well as my knowledge about human vision towards these goals."
---  \I am open to freelance work. If you are interested in working with me, please "
---  <> a_ [href_ obscured_mailto] "contact me here"
---  <> "."
---  where
---    obscured_mailto = "&#109;&#97;&#105;&#108;&#116;&#111;&#58;%66%75%6C%6C%79%61%63%68%72%6F%6D%61%74%69%63%40%67%6D%61%69%6C%2E%63%6F%6D"
+  
+adText :: Html ()
+adText =
+  "I am open to freelance work. If you are interested in working with me, please contact me at "
+  <> encryptLink "#" "fullyachromatic@gmail.com"
+  <> " or find out more "
+  <> a_ [href_ "about/"] "here"
+  <> "."
+  <> decryptScript "./"
+
 blogText :: Html ()
 blogText =
   "Here I provide you with articles about topics I am interested in."
@@ -68,6 +75,7 @@ homeBody = do
     h1_ "Bernhard Lang"
     div_ $ img_ [src_ "resources/bl_500.png"]
     p_ [style_ "text-align:left"] scienceText
+    p_ [style_ "text-align:left"] adText
 --    h2_ . a_ [href_ "science.html"] $ "The note collection"
 --    p_ [style_ "text-align:left"] blogText
     h2_ "Curriculum Vitae"
@@ -77,7 +85,10 @@ homeBody = do
               <> td_ "M.Sc. in Neural Information Processing, University of Tübingen")
          <> tr_ (td_ [class_ "dateRow"] "2012 - 2015"
               <> td_ "B.Sc. in Computational Molecular Biology, Saarland University"))
-    div_ [style_ "border:1px solid #000"] $ do
+    div_ [style_ "border:1px solid #000;margin:1em 0em"] $ do
+      h2_ $ a_ [href_ "art-is-phenomenal/", style_ "text-decoration:none"] "Art is phenomenal!"
+      p_ $ a_ [href_ "art-is-phenomenal/", style_ "text-decoration:none"] "... Wouldn't you agree? Doesn't matter if you're thinking of your favorite TV show, that album you've listened to twenty times on repeat, the theater play that made you puzzled afterwards or that painting that filled you with awe. While I also completely agree with this interpretation of the phrase, there is another meaning I would like to endorse ..."
+    div_ [style_ "border:1px solid #000;margin:1em 0em"] $ do
       h2_ $ a_ [href_ "what-is-color/", style_ "text-decoration:none"] "What is color?"
       p_ $ a_ [href_ "what-is-color/", style_ "text-decoration:none"] "What do you see when you look around you? If you are reading this at a desk on a computer monitor, you probably have a keyboard and mouse before you, maybe there is a coffee mug next to it. The world, as we experience it, consists of objects and every object has (at least one) color ..."
     

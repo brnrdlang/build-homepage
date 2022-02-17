@@ -74,7 +74,11 @@ commonCSSCode = do
        marginLeft auto
        marginRight auto
        textAlign start
-       
+ 
+  table ?
+    do marginLeft auto
+       marginRight auto
+      
   ul ?
     do maxWidth  (px 600)
        marginLeft auto
@@ -98,10 +102,6 @@ assembleHomeCSS = do
        fontSize   (em 3)
        fontWeight normal
   
-  table ?
-    do marginLeft auto
-       marginRight auto
-
   td ? textAlign start
 
   ".dateRow" ?
