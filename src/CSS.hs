@@ -73,7 +73,7 @@ commonCSSCode = do
     do maxWidth  (px 600)
        marginLeft auto
        marginRight auto
-       textAlign start
+       textAlign justify
  
   table ?
     do marginLeft auto

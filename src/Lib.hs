@@ -74,8 +74,8 @@ homeBody = do
   div_ [class_ "science"] $ do
     h1_ "Bernhard Lang"
     div_ $ img_ [src_ "resources/bl_500.png"]
-    p_ [style_ "text-align:left"] scienceText
-    p_ [style_ "text-align:left"] adText
+    p_ scienceText
+    p_ adText
 --    h2_ . a_ [href_ "science.html"] $ "The note collection"
 --    p_ [style_ "text-align:left"] blogText
     h2_ "Curriculum Vitae"
