@@ -36,12 +36,13 @@ gestaltPackage :: IO ()
 gestaltPackage = do
   copyFile "gestalt-web/pkg/gestalt.js" "brnrdlang.github.io/resources/js/gestalt.js"
   copyFile "gestalt-web/pkg/gestalt_bg.wasm" "brnrdlang.github.io/resources/js/gestalt_bg.wasm"
-  copyFile "gestalt-web/pkg/gestalt_bg.js" "brnrdlang.github.io/resources/js/gestalt_bg.js"
-  copyFile "gestalt-web/pkg/gestalt.d.ts" "brnrdlang.github.io/resources/js/gestalt.d.ts"
+--  copyFile "gestalt-web/pkg/gestalt_bg.js" "brnrdlang.github.io/resources/js/gestalt_bg.js"
+--  copyFile "gestalt-web/pkg/gestalt.d.ts" "brnrdlang.github.io/resources/js/gestalt.d.ts"
   copyFile "gestalt-web/pkg/package.json" "brnrdlang.github.io/resources/js/package.json"
 
 scienceMenu :: [(String, String)]
-scienceMenu = [("art-is-phenomenal/", "Art is phenomenal!"),
+scienceMenu = [("math-by-intuition/", "Math by Intuition"),
+               ("art-is-phenomenal/", "Art is phenomenal!"),
                ("what-is-color/", "What is color?"),
                ("about/", "About me")]
 
@@ -56,6 +57,7 @@ main :: IO ()
 main = do
   science_md <- T.readFile "content/science/what-is-color.md"
   art_md <- T.readFile "content/science/art-is-phenomenal.md"
+  math_md <- T.readFile "content/science/math-by-intuition.md"
   design_md <- T.readFile "content/art/design.md"
   drawings_md <- T.readFile "content/art/drawings.md"
   cg_md <- T.readFile "content/art/cg.md"
@@ -76,6 +78,13 @@ main = do
   
   scB <- return (scienceBody "../" scienceMenu artMenu artPhenomenal)
   renderToFile (homepageDir </> "art-is-phenomenal/index.html") (assembleDocument "Art is Phenomenal! | Bernhard Lang" "../resources/sc_style.css" "../resources/favicon.svg" scB)
+
+  mathIntuition <- case MM.parse "content/science/what-is-color.md" art_md of
+    Left bundle -> return . p_ $ "Couldn't load file"
+    Right r -> return . MM.render $ r
+  
+  scB <- return (scienceBody "../" scienceMenu artMenu mathIntuition)
+  renderToFile (homepageDir </> "math-by-intuition/index.html") (assembleDocument "Math by Intuition | Bernhard Lang" "../resources/sc_style.css" "../resources/favicon.svg" scB)
 
   aboutSite <- return (scienceBody "../" scienceMenu artMenu aboutBody)
   renderToFile (homepageDir </> "about/index.html") (assembleDocument "About Bernhard Lang | fullyAchromatic" "../resources/sc_style.css" "../resources/favicon.svg" aboutSite)
