@@ -72,14 +72,14 @@ main = do
   scB <- return (scienceBody "../" scienceMenu artMenu right)
   renderToFile (homepageDir </> "what-is-color/index.html") (assembleDocument "What is color? | Bernhard Lang" "../resources/sc_style.css" "../resources/favicon.svg" scB)
 
-  artPhenomenal <- case MM.parse "content/science/what-is-color.md" art_md of
+  artPhenomenal <- case MM.parse "content/science/art-is-phenomenal.md" art_md of
     Left bundle -> return . p_ $ "Couldn't load file"
     Right r -> return . MM.render $ r
   
   scB <- return (scienceBody "../" scienceMenu artMenu artPhenomenal)
   renderToFile (homepageDir </> "art-is-phenomenal/index.html") (assembleDocument "Art is Phenomenal! | Bernhard Lang" "../resources/sc_style.css" "../resources/favicon.svg" scB)
 
-  mathIntuition <- case MM.parse "content/science/what-is-color.md" art_md of
+  mathIntuition <- case MM.parse "content/science/math-by-intuition" math_md of
     Left bundle -> return . p_ $ "Couldn't load file"
     Right r -> return . MM.render $ r
   
