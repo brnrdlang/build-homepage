@@ -1,4 +1,4 @@
-# DRAFT: Math by Intuition (Handbook of Mathematical Abstraction - Introduction)
+# DRAFT: Math by Intuition
 
 For the uninitiated, math often feels like a foreign language, maybe not even from this world. But it is far from that. The roots of the field lie deep in the foundations of how we perceive and understand the world.
 
